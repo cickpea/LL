@@ -27,8 +27,8 @@ protected:
 
 public:
     Food(int id = 0, std::string name = "", int qty = 0, Date expiry = Date());
-    void read();
-    void write() const;
+    virtual void read();
+    virtual void write() const;
 };
 
 class Node
@@ -62,4 +62,14 @@ public:
     bool empty() const;
 };
 
+class dryStorage : public Food
+{
+private:
+    int lightSens;
+
+public:
+    dryStorage(int id = 0, std::string name = "", int qty = 0, Date expiry = Date(), int lightSens = 0);
+    void read();
+    void write() const;
+};
 #endif // FOODLIST_H
