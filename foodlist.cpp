@@ -138,6 +138,7 @@ void FoodList::display() const
     {
         current->data->write();
         current = current->next;
+        cout << endl;
     }
 }
 
