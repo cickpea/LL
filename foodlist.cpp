@@ -35,8 +35,9 @@ void Food::read()
 
 void Food::write() const
 {
-    cout << "ID: " << ID << ", Name: " << Name << ", Quantity: " << quantity << ", Expiry Date: ";
+    cout << "ID: " << ID << "\t Name: " << Name << "\t Quantity: " << quantity << "\t Expiry Date: ";
     expiryDate.write();
+    cout << "\t";
     // std::cout << std::endl;
 }
 
@@ -138,6 +139,7 @@ void FoodList::display() const
     {
         current->data->write();
         current = current->next;
+        cout << '\n';
     }
 }
 
@@ -186,7 +188,7 @@ void dryStorage::read()
 void dryStorage::write() const
 {
     Food::write();
-    cout << ", Light Sensitivity: " << lightSens;
+    cout << "Light Sensitivity: " << lightSens;
 }
 
 canned::canned(int id, std::string name, int qty, Date expiry, float canSize) : Food(id,name,qty,expiry), canSize(canSize)
@@ -203,7 +205,7 @@ void canned::read()
 void canned::write() const
 {
     Food::write();
-    cout << ", Can size: " << canSize;
+    cout << "Can size: " << canSize;
 }
 
 frozen::frozen(int id, std::string name, int qty, Date expiry, float minTemp) : Food(id, name, qty, expiry), minTemp(minTemp)
@@ -220,7 +222,7 @@ void frozen::read()
 void frozen::write() const
 {
     Food::write();
-    cout << ", minimum storage temperature: " << minTemp;
+    cout << "Minimum storage temperature: " << minTemp;
 }
 
 refrigerated::refrigerated(int id, std::string name, int qty, Date expiry, float maxTemp) : Food(id, name, qty, expiry), maxTemp(maxTemp)
@@ -237,5 +239,5 @@ void refrigerated::read()
 void refrigerated::write() const
 {
     Food::write();
-    cout << ", Maximum storage temperature: " << maxTemp;
+    cout << "Maximum storage temperature: " << maxTemp;
 }
