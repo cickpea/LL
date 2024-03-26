@@ -16,7 +16,7 @@ int main() {
         cout << "'d': delete" << endl; 
         cout << "'e': check for empty" << endl;  
         cout << "'n': size or count" << endl; 
-        cout << "'c': clear the strucutre entirely" << endl; 
+        cout << "'c': clear the structure entirely" << endl; 
         cout << "'q': quit" << endl; 
         cout << "Your choice: ";
         cin >> choice;

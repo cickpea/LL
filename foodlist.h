@@ -72,4 +72,35 @@ public:
     void read();
     void write() const;
 };
-#endif // FOODLIST_H
+
+class canned : public Food
+{
+private:
+    float canSize;
+
+public:
+    canned(int id = 0, std::string name = "", int qty = 0, Date expiry = Date(), float canSize = 0);
+    void read();
+    void write() const;
+};
+
+class frozen : public Food {
+    private:
+    float minTemp;
+    public:
+    frozen(int id = 0, std::string name = "", int qty = 0, Date expiry = Date(), float minTemp = 0);
+    void read();
+    void write() const;
+};
+
+class refrigerated : public Food
+{
+private:
+    int maxTemp;
+
+public:
+    refrigerated(int id = 0, std::string name = "", int qty = 0, Date expiry = Date(), float maxTemp = 0);
+    void read();
+    void write() const;
+};
+#endif //_FOODLIST_H_

@@ -188,3 +188,54 @@ void dryStorage::write() const
     Food::write();
     cout << ", Light Sensitivity: " << lightSens;
 }
+
+canned::canned(int id, std::string name, int qty, Date expiry, float canSize) : Food(id,name,qty,expiry), canSize(canSize)
+{
+}
+
+void canned::read()
+{
+    Food::read();
+    cout << "Enter Can size: ";
+    cin >> canSize;
+}
+
+void canned::write() const
+{
+    Food::write();
+    cout << ", Can size: " << canSize;
+}
+
+frozen::frozen(int id, std::string name, int qty, Date expiry, float minTemp) : Food(id, name, qty, expiry), minTemp(minTemp)
+{
+}
+
+void frozen::read()
+{
+    Food::read();
+    cout << "Enter minimum storage temperature:";
+    cin >> minTemp;
+}
+
+void frozen::write() const
+{
+    Food::write();
+    cout << ", minimum storage temperature: " << minTemp;
+}
+
+refrigerated::refrigerated(int id, std::string name, int qty, Date expiry, float maxTemp) : Food(id, name, qty, expiry), maxTemp(maxTemp)
+{
+}
+
+void refrigerated::read()
+{
+    Food::read();
+    cout << "Enter maximum storage temperature:";
+    cin >> maxTemp;
+}
+
+void refrigerated::write() const
+{
+    Food::write();
+    cout << ", Maximum storage temperature: " << maxTemp;
+}
