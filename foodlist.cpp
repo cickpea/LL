@@ -1,4 +1,3 @@
-
 #include "foodlist.h"
 
 using namespace std;
@@ -41,18 +40,18 @@ void Food::write() const
     // std::cout << std::endl;
 }
 
-Node::Node(Food *food) : data(food), prev(NULL), next(NULL) {}
+Node::Node(Food* food) : data(food), prev(NULL), next(NULL) {}
 
-FoodList::FoodList() : head(NULL), tail(NULL) {}
+FoodList::FoodList() : head(NULL), tail(NULL), count(0) {}
 
 FoodList::~FoodList()
 { // This is a desctructor, good practice to include this, can remove if required
     clear();
 }
 
-void FoodList::sortedInsert(Food *newFood)
+void FoodList::sortedInsert(Food* newFood)
 {
-    Node *newNode = new Node(newFood);
+    Node* newNode = new Node(newFood);
     if (head == NULL || head->data->Name >= newFood->Name)
     {
         newNode->next = head;
@@ -68,7 +67,7 @@ void FoodList::sortedInsert(Food *newFood)
     }
     else
     {
-        Node *current = head;
+        Node* current = head;
         while (current->next != NULL && current->next->data->Name < newFood->Name)
         {
             current = current->next;
@@ -85,11 +84,12 @@ void FoodList::sortedInsert(Food *newFood)
         current->next = newNode;
         newNode->prev = current;
     }
+    count++;
 }
 
-Food *FoodList::search(const std::string &name)
+Food* FoodList::search(const std::string& name)
 {
-    Node *current = head;
+    Node* current = head;
     while (current != NULL)
     {
         if (current->data->Name == name)
@@ -101,40 +101,52 @@ Food *FoodList::search(const std::string &name)
     return NULL;
 }
 
-void FoodList::deleteItem(const std::string &name)
+void FoodList::deleteItem(const std::string& name)
 {
-    Node *current = head;
-    while (current != NULL)
-    {
-        if (current->data->Name == name)
+    if (count == 0) {
+        cout << "Databse Empty";
+    }
+    else {
+        int chk = 0;
+        Node* current = head;
+        while (current != NULL)
         {
-            if (current->prev)
+            if (current->data->Name == name)
             {
-                current->prev->next = current->next;
+                chk += 1;
+                if (current->prev)
+                {
+                    current->prev->next = current->next;
+                }
+                else
+                {
+                    head = current->next;
+                }
+                if (current->next)
+                {
+                    current->next->prev = current->prev;
+                }
+                else
+                {
+                    tail = current->prev;
+                }
+                delete current->data;
+                delete current;
+                count--;
+                return;
             }
-            else
-            {
-                head = current->next;
-            }
-            if (current->next)
-            {
-                current->next->prev = current->prev;
-            }
-            else
-            {
-                tail = current->prev;
-            }
-            delete current->data;
-            delete current;
-            return;
+            current = current->next;
         }
-        current = current->next;
+        if (chk == 0) {
+            cout << "Item not found" << endl;
+        }
     }
 }
 
+
 void FoodList::display() const
 {
-    Node *current = head;
+    Node* current = head;
     while (current != NULL)
     {
         current->data->write();
@@ -145,10 +157,10 @@ void FoodList::display() const
 
 void FoodList::clear()
 {
-    Node *current = head;
+    Node* current = head;
     while (current != NULL)
     {
-        Node *next = current->next;
+        Node* next = current->next;
         delete current->data;
         delete current;
         current = next;
@@ -162,8 +174,8 @@ bool FoodList::empty() const
     return head == NULL;
 }
 
-int FoodList::count() const
-{
+int FoodList::count_num() const
+{/*
     int itemCount = 0;
     Node *current = head;
     while (current != NULL)
@@ -171,8 +183,25 @@ int FoodList::count() const
         itemCount++;
         current = current->next;
     }
-    return itemCount;
+    return itemCount;*/
+    return count;
 }
+bool FoodList::is_sorted() const
+{
+    if (head == nullptr || head->next == nullptr) {
+        return true; 
+    }
+
+    Node* temp = head;
+    while (temp->next != nullptr) {
+        if (temp->data->Name > temp->next->data->Name) {
+            return false; // Found two adjacent elements out of order
+        }
+        temp = temp->next;
+    }
+    return true; // All elements are in the correct order
+}
+
 
 dryStorage::dryStorage(int id, std::string name, int qty, Date expiry, int lightSens) : Food(id, name, qty, expiry), lightSens(lightSens)
 {
@@ -191,7 +220,7 @@ void dryStorage::write() const
     cout << "Light Sensitivity: " << lightSens;
 }
 
-canned::canned(int id, std::string name, int qty, Date expiry, float canSize) : Food(id,name,qty,expiry), canSize(canSize)
+canned::canned(int id, std::string name, int qty, Date expiry, float canSize) : Food(id, name, qty, expiry), canSize(canSize)
 {
 }
 

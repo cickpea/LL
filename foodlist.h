@@ -36,30 +36,32 @@ class Node
     friend class FoodList;
 
 private:
-    Food *data;
-    Node *prev;
-    Node *next;
+    Food* data;
+    Node* prev;
+    Node* next;
 
 public:
-    Node(Food *food);
+    Node(Food* food);
 };
 
 class FoodList
 {
 private:
-    Node *head;
-    Node *tail;
+    Node* head;
+    Node* tail;
+    int count;
 
 public:
     FoodList();
     ~FoodList();
-    void sortedInsert(Food *newFood);
-    Food *search(const std::string &name);
-    void deleteItem(const std::string &name);
+    void sortedInsert(Food* newFood);
+    Food* search(const std::string& name);
+    void deleteItem(const std::string& name);
     void display() const;
-    int count() const;
+    int count_num() const;
     void clear();
     bool empty() const;
+    bool is_sorted() const;
 };
 
 class dryStorage : public Food
@@ -85,9 +87,9 @@ public:
 };
 
 class frozen : public Food {
-    private:
+private:
     float minTemp;
-    public:
+public:
     frozen(int id = 0, std::string name = "", int qty = 0, Date expiry = Date(), float minTemp = 0);
     void read();
     void write() const;

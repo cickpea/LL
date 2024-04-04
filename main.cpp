@@ -7,7 +7,7 @@ using namespace std;
 int main()
 {
     FoodList myList;
-    Food *newFood;
+    Food* newFood;
     char choice;
 
     while (true)
@@ -18,6 +18,7 @@ int main()
         cout << "'p': print" << endl;
         cout << "'d': delete" << endl;
         cout << "'e': check for empty" << endl;
+        cout << "'h': Check if the list is sorted" << endl;
         cout << "'n': size or count" << endl;
         cout << "'c': clear the structure entirely" << endl;
         cout << "'q': quit" << endl;
@@ -27,6 +28,7 @@ int main()
 
         if (choice == 'q')
         {
+            myList.clear();
             break;
         }
 
@@ -69,7 +71,7 @@ int main()
             string searchName;
             cout << "Enter the name of the food item to search: ";
             cin >> searchName;
-            Food *foundItem = myList.search(searchName);
+            Food* foundItem = myList.search(searchName);
             if (foundItem != NULL)
             {
                 cout << "\nFood item found:" << std::endl;
@@ -107,9 +109,19 @@ int main()
             }
             break;
         }
+        case 'h':
+        {
+            bool chk = myList.is_sorted();
+            if (chk) {
+                cout << "List Sorted";
+            }
+            else {
+                cout << "List Not Sorted";
+            }
+        }
         case 'n':
         {
-            cout << "The count is " << myList.count() << std::endl;
+            cout << "The count is " << myList.count_num() << std::endl;
             break;
         }
         case 'c':
