@@ -113,10 +113,10 @@ int main()
         {
             bool chk = myList.is_sorted();
             if (chk) {
-                cout << "List Sorted";
+                cout << "List Sorted.\n";
             }
             else {
-                cout << "List Not Sorted";
+                cout << "List Not Sorted.\n";
             }
         }
         case 'n':
