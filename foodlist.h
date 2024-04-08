@@ -16,9 +16,185 @@ public:
     void write() const;
 };
 
+
+template <typename T>
+class FoodList
+{
+private:
+    struct Node
+    {
+        T* data;
+        Node* prev;
+        Node* next;
+        Node(T* food) : data(food), prev(nullptr), next(nullptr) {}
+    };
+
+    Node* head;
+    Node* tail;
+    int count;
+
+public:
+    FoodList() : head(nullptr), tail(nullptr), count(0) {}
+    ~FoodList()
+    {
+        clear();
+    }
+
+    void sortedInsert(T* newFood)
+    {
+        Node* newNode = new Node(newFood);
+        if (head == nullptr || head->data->Name >= newFood->Name)
+        {
+            newNode->next = head;
+            if (head != nullptr)
+            {
+                head->prev = newNode;
+            }
+            head = newNode;
+            if (tail == nullptr)
+            {
+                tail = newNode;
+            }
+        }
+        else
+        {
+            Node* current = head;
+            while (current->next != nullptr && current->next->data->Name < newFood->Name)
+            {
+                current = current->next;
+            }
+            newNode->next = current->next;
+            if (current->next != nullptr)
+            {
+                newNode->next->prev = newNode;
+            }
+            else
+            {
+                tail = newNode;
+            }
+            current->next = newNode;
+            newNode->prev = current;
+        }
+        count++;
+    }
+
+    T* search(const std::string& name)
+    {
+        Node* current = head;
+        while (current != nullptr)
+        {
+            if (current->data->Name == name)
+            {
+                return current->data;
+            }
+            current = current->next;
+        }
+        return nullptr;
+    }
+
+    void deleteItem(const std::string& name)
+    {
+        if (count == 0)
+        {
+            cout << "Database Empty";
+        }
+        else
+        {
+            int chk = 0;
+            Node* current = head;
+            while (current != nullptr)
+            {
+                if (current->data->Name == name)
+                {
+                    chk += 1;
+                    if (current->prev)
+                    {
+                        current->prev->next = current->next;
+                    }
+                    else
+                    {
+                        head = current->next;
+                    }
+                    if (current->next)
+                    {
+                        current->next->prev = current->prev;
+                    }
+                    else
+                    {
+                        tail = current->prev;
+                    }
+                    delete current->data;
+                    delete current;
+                    count--;
+                    return;
+                }
+                current = current->next;
+            }
+            if (chk == 0)
+            {
+                cout << "Item not found" << endl;
+            }
+        }
+    }
+
+    void display() const
+    {
+        Node* current = head;
+        while (current != nullptr)
+        {
+            current->data->write();
+            current = current->next;
+            cout << '\n';
+        }
+    }
+
+    void clear()
+    {
+        Node* current = head;
+        while (current != nullptr)
+        {
+            Node* next = current->next;
+            delete current->data;
+            delete current;
+            current = next;
+        }
+        head = nullptr;
+        tail = nullptr;
+    }
+
+    bool empty() const
+    {
+        return head == nullptr;
+    }
+
+    int count_num() const
+    {
+        return count;
+    }
+
+    bool is_sorted() const
+    {
+        if (head == nullptr || head->next == nullptr)
+        {
+            return true;
+        }
+
+        Node* temp = head;
+        while (temp->next != nullptr)
+        {
+            if (temp->data->Name > temp->next->data->Name)
+            {
+                return false; // Found two adjacent elements out of order
+            }
+            temp = temp->next;
+        }
+        return true; // All elements are in the correct order
+    }
+};
+
 class Food
 {
-    friend class FoodList;
+    friend class FoodList<Food>;
 
 protected:
     int ID, quantity;
@@ -30,40 +206,6 @@ public:
     virtual void read();
     virtual void write() const;
 };
-
-class Node
-{
-    friend class FoodList;
-
-private:
-    Food* data;
-    Node* prev;
-    Node* next;
-
-public:
-    Node(Food* food);
-};
-
-class FoodList
-{
-private:
-    Node* head;
-    Node* tail;
-    int count;
-
-public:
-    FoodList();
-    ~FoodList();
-    void sortedInsert(Food* newFood);
-    Food* search(const std::string& name);
-    void deleteItem(const std::string& name);
-    void display() const;
-    int count_num() const;
-    void clear();
-    bool empty() const;
-    bool is_sorted() const;
-};
-
 class dryStorage : public Food
 {
 private:
