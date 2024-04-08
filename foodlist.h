@@ -15,32 +15,25 @@ public:
     void read();
     void write() const;
 };
+template <typename T>
+class Node;
 
 template <typename T>
 class FoodList
 {
 private:
-    struct Node
-    {
-    public:
-        T *data;
-        Node *prev;
-        Node *next;
-        Node(T *food) : data(food), prev(nullptr), next(nullptr) {}
-    };
-
-    Node *head;
-    Node *tail;
+    Node<T> *head;
+    Node<T> *tail;
     int count;
 
 public:
     FoodList() : head(nullptr), tail(nullptr), count(0) {}
     ~FoodList()
     {
-        Node *current = head;
+        Node<T> *current = head;
         while (current != nullptr)
         {
-            Node *next = current->next;
+            Node<T> *next = current->next;
             delete current->data;
             delete current;
             current = next;
@@ -52,7 +45,7 @@ public:
 
     void sortedInsert(T *newFood)
     {
-        Node *newNode = new Node(newFood);
+        Node<T> *newNode = new Node<T>(newFood);
         if (head == nullptr || head->data->Name >= newFood->Name)
         {
             newNode->next = head;
@@ -68,7 +61,7 @@ public:
         }
         else
         {
-            Node *current = head;
+            Node<T> *current = head;
             while (current->next != nullptr && current->next->data->Name < newFood->Name)
             {
                 current = current->next;
@@ -90,7 +83,7 @@ public:
 
     T *search(const std::string &name)
     {
-        Node *current = head;
+        Node<T> *current = head;
         while (current != nullptr)
         {
             if (current->data->Name == name)
@@ -111,7 +104,7 @@ public:
         else
         {
             int chk = 0;
-            Node *current = head;
+            Node<T> *current = head;
             while (current != nullptr)
             {
                 if (current->data->Name == name)
@@ -149,7 +142,7 @@ public:
 
     void display() const
     {
-        Node *current = head;
+        Node<T> *current = head;
         while (current != nullptr)
         {
             current->data->write();
@@ -165,10 +158,10 @@ public:
             cout << "List was empty." << endl;
             return;
         }
-        Node *current = head;
+        Node<T> *current = head;
         while (current != nullptr)
         {
-            Node *next = current->next;
+            Node<T> *next = current->next;
             delete current->data;
             delete current;
             current = next;
@@ -196,7 +189,7 @@ public:
             return true;
         }
 
-        Node *temp = head;
+        Node<T> *temp = head;
         while (temp->next != nullptr)
         {
             if (temp->data->Name > temp->next->data->Name)
@@ -207,6 +200,18 @@ public:
         }
         return true; // All elements are in the correct order
     }
+};
+
+template <typename T>
+class Node
+{
+    friend class FoodList<T>;
+
+public:
+    T *data;
+    Node<T> *prev;
+    Node<T> *next;
+    Node(T *food) : data(food) {}
 };
 
 class Food
