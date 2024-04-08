@@ -63,7 +63,6 @@ int main()
             }
             newFood->read();
             myList.sortedInsert(newFood);
-            cout << "Item added and sorted." << std::endl;
             break;
         }
         case 's':

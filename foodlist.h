@@ -45,6 +45,16 @@ public:
 
     void sortedInsert(T *newFood)
     {
+        Node<T> *current = head;
+        while (current != nullptr)
+        {
+            if (current->data->ID == newFood->ID)
+            {
+                cout << "Duplicate ID. Insertion failed." << endl;
+                return;
+            }
+            current = current->next;
+        }
         Node<T> *newNode = new Node<T>(newFood);
         if (head == nullptr || head->data->Name >= newFood->Name)
         {
@@ -79,6 +89,7 @@ public:
             newNode->prev = current;
         }
         count++;
+        cout << "Item added and sorted." << std::endl;
     }
 
     T *search(const std::string &name)
