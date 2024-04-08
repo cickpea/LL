@@ -24,9 +24,9 @@ void Food::read()
     cout << "     " << endl;
     cout << "Enter ID: ";
     cin >> ID;
-    // std::cin.ignore();
     cout << "Enter Name: ";
-    cin >> Name;
+    cin.ignore();
+    getline(cin, Name);
     cout << "Enter Quantity: ";
     cin >> quantity;
     expiryDate.read();
@@ -37,7 +37,6 @@ void Food::write() const
     cout << "ID: " << ID << "\t Name: " << Name << "\t Quantity: " << quantity << "\t Expiry Date: ";
     expiryDate.write();
     cout << "\t";
-    // std::cout << std::endl;
 }
 
 

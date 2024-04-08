@@ -118,6 +118,7 @@ int main()
             else {
                 cout << "List Not Sorted.\n";
             }
+            break;
         }
         case 'n':
         {
@@ -127,7 +128,6 @@ int main()
         case 'c':
         {
             myList.clear();
-            cout << "List cleared." << std::endl;
             break;
         }
         default:
