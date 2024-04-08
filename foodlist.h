@@ -30,20 +30,21 @@ public:
     virtual void read();
     virtual void write() const;
 };
-
+template <typename T>
 class Node
 {
-    friend class FoodList;
+    friend class FoodList<T>;
 
 private:
-    Food* data;
-    Node* prev;
-    Node* next;
+    T* data;
+    Node<T>* prev;
+    Node<T>* next;
 
 public:
-    Node(Food* food);
+    Node(T* food);
 };
 
+template <typename T>
 class FoodList
 {
 private:
@@ -54,8 +55,8 @@ private:
 public:
     FoodList();
     ~FoodList();
-    void sortedInsert(Food* newFood);
-    Food* search(const std::string& name);
+    void sortedInsert(T* newFood);
+    T* search(const std::string& name);
     void deleteItem(const std::string& name);
     void display() const;
     int count_num() const;

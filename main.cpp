@@ -6,7 +6,7 @@ using namespace std;
 
 int main()
 {
-    FoodList myList;
+    FoodList<Food> myList;
     Food* newFood;
     char choice;
 
