@@ -6,7 +6,7 @@ using namespace std;
 
 int main()
 {
-    FoodList<Food> myList;
+    FoodList myList;
     Food* newFood;
     char choice;
 
@@ -113,10 +113,10 @@ int main()
         {
             bool chk = myList.is_sorted();
             if (chk) {
-                cout << "List Sorted.\n";
+                cout << "List Sorted";
             }
             else {
-                cout << "List Not Sorted.\n";
+                cout << "List Not Sorted";
             }
         }
         case 'n':

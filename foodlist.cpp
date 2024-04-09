@@ -26,7 +26,7 @@ void Food::read()
     cin >> ID;
     // std::cin.ignore();
     cout << "Enter Name: ";
-    std::getline(std::cin, Name);
+    cin >> Name;
     cout << "Enter Quantity: ";
     cin >> quantity;
     expiryDate.read();
@@ -40,22 +40,18 @@ void Food::write() const
     // std::cout << std::endl;
 }
 
-template <typename T>
-Node<T>::Node(T *food) : data(food), prev(NULL), next(NULL) {}
+Node::Node(Food* food) : data(food), prev(NULL), next(NULL) {}
 
-template <typename T>
-FoodList<T>::FoodList() {}
+FoodList::FoodList() : head(NULL), tail(NULL), count(0) {}
 
-template <typename T>
-FoodList<T>::~FoodList()
+FoodList::~FoodList()
 { // This is a desctructor, good practice to include this, can remove if required
     clear();
 }
 
-template <typename T>
-void FoodList<T>::sortedInsert(T *newFood)
+void FoodList::sortedInsert(Food* newFood)
 {
-    Node *newNode = new Node(newFood);
+    Node* newNode = new Node(newFood);
     if (head == NULL || head->data->Name >= newFood->Name)
     {
         newNode->next = head;
@@ -71,7 +67,7 @@ void FoodList<T>::sortedInsert(T *newFood)
     }
     else
     {
-        Node *current = head;
+        Node* current = head;
         while (current->next != NULL && current->next->data->Name < newFood->Name)
         {
             current = current->next;
@@ -91,10 +87,9 @@ void FoodList<T>::sortedInsert(T *newFood)
     count++;
 }
 
-template <typename T>
-T *FoodList<T>::search(const std::string &name)
+Food* FoodList::search(const std::string& name)
 {
-    Node<T> *current = head;
+    Node* current = head;
     while (current != NULL)
     {
         if (current->data->Name == name)
@@ -106,17 +101,14 @@ T *FoodList<T>::search(const std::string &name)
     return NULL;
 }
 
-template <typename T>
-void FoodList<T>::deleteItem(const std::string &name)
+void FoodList::deleteItem(const std::string& name)
 {
-    if (count == 0)
-    {
+    if (count == 0) {
         cout << "Databse Empty";
     }
-    else
-    {
+    else {
         int chk = 0;
-        Node *current = head;
+        Node* current = head;
         while (current != NULL)
         {
             if (current->data->Name == name)
@@ -145,17 +137,16 @@ void FoodList<T>::deleteItem(const std::string &name)
             }
             current = current->next;
         }
-        if (chk == 0)
-        {
+        if (chk == 0) {
             cout << "Item not found" << endl;
         }
     }
 }
 
-template <typename T>
-void FoodList<T>::display() const
+
+void FoodList::display() const
 {
-    Node<T> *current = head;
+    Node* current = head;
     while (current != NULL)
     {
         current->data->write();
@@ -164,19 +155,12 @@ void FoodList<T>::display() const
     }
 }
 
-template <typename T>
-void FoodList<T>::clear()
+void FoodList::clear()
 {
-    if (head == NULL)
-    {
-        cout << "List is empty" << endl;
-        return;
-    }
-
-    Node *current = head;
+    Node* current = head;
     while (current != NULL)
     {
-        Node *next = current->next;
+        Node* next = current->next;
         delete current->data;
         delete current;
         current = next;
@@ -185,36 +169,39 @@ void FoodList<T>::clear()
     tail = NULL;
 }
 
-template <typename T>
-bool FoodList<T>::empty() const
+bool FoodList::empty() const
 {
     return head == NULL;
 }
 
-template <typename T>
-int FoodList<T>::count_num() const
-{
+int FoodList::count_num() const
+{/*
+    int itemCount = 0;
+    Node *current = head;
+    while (current != NULL)
+    {
+        itemCount++;
+        current = current->next;
+    }
+    return itemCount;*/
     return count;
 }
-template <typename T>
-bool FoodList<T>::is_sorted() const
+bool FoodList::is_sorted() const
 {
-    if (head == nullptr || head->next == nullptr)
-    {
-        return true;
+    if (head == nullptr || head->next == nullptr) {
+        return true; 
     }
 
-    Node<T> *temp = head;
-    while (temp->next != nullptr)
-    {
-        if (temp->data->Name > temp->next->data->Name)
-        {
+    Node* temp = head;
+    while (temp->next != nullptr) {
+        if (temp->data->Name > temp->next->data->Name) {
             return false; // Found two adjacent elements out of order
         }
         temp = temp->next;
     }
     return true; // All elements are in the correct order
 }
+
 
 dryStorage::dryStorage(int id, std::string name, int qty, Date expiry, int lightSens) : Food(id, name, qty, expiry), lightSens(lightSens)
 {
