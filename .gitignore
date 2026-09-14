@@ -1,1 +1,4 @@
 LL.code-workspace
+# compiled output
+a.out
+*.o
